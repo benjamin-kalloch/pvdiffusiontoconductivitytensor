@@ -1,0 +1,66 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+    <SourceProxy name="DiffusionToConductivityTensorFilter" class="vtkDiffusionToConductivityTensorFilter" label="Diffusion-tensor to conductivity-tensor">
+
+      <Documentation
+     long_help="Converts diffusion tensors to conductivity tensors."
+     short_help="Converts diffusion tensors to conductivity tensors..">
+        Converts diffusion tensors to conductivity tensors.
+      </Documentation>
+
+      <InputProperty
+         name="TensorInput"
+         port_inex="0"
+         command="SetInputConnection"
+         multiple_input="1">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkDataSet"/>
+        </DataTypeDomain>
+    <InputArrayDomain name="input_array1" attribute_type="any"
+              number_of_components="9" />
+        <Documentation>
+          This property specifies the tensor-field input.
+        </Documentation>
+      </InputProperty>
+
+     <StringVectorProperty
+         name="SelectInputTensors"
+         command="SetInputArrayToProcess"
+         number_of_elements="5"
+         element_types="0 0 0 0 2"
+         label="Tensors">
+        <ArrayListDomain name="array_list" attribute_type="Tensors"
+             input_domain_name="input_array1">
+          <RequiredProperties>
+            <Property name="TensorInput" function="Input"/>
+          </RequiredProperties>
+        </ArrayListDomain>
+        <Documentation>
+          This property indicates the name of the tensor array on which to operate.
+        </Documentation>
+      </StringVectorProperty>
+
+    <DoubleVectorProperty name="Conductivity" command="Setconductivity" number_of_elements="1" animateable="1" default_values="0.126">
+        <Documentation>
+            This property defines the conductivity value which will be used when creating the conductivity-tensors.
+        </Documentation>
+    </DoubleVectorProperty>
+
+    <DoubleVectorProperty name="Ratio" command="Setratio" number_of_elements="1" animateable="1" default_values="0.1">
+        <Documentation>
+            This property defines the ratio between main- and auxiliary-direction of the tensor (e.g. 1 : 10 = 0.1 ).
+        </Documentation>
+    </DoubleVectorProperty>
+
+      <Hints>
+    <ShowInMenu category="Tensor Analysis" />
+      </Hints>
+
+    </SourceProxy>
+
+  </ProxyGroup>
+</ServerManagerConfiguration>
